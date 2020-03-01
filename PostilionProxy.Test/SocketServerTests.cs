@@ -191,7 +191,7 @@ namespace PostilionProxy.Test
                 latestHandler.AssertNoWaitingEvents();
 
                 // server => socket:
-                latestHandler.Sink.SendMessage(msg);
+                latestHandler.Sink.SendMessageAsync(msg).AsTask().Wait();
                 var response = ReadPayloadFromSocket(socket);
                 Assert.AreEqual(1, response.Length);
                 Assert.AreEqual(0xFF, response[0]);

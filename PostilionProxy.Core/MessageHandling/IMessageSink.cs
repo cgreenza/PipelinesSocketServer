@@ -4,7 +4,7 @@ namespace PostilionProxy.Core.MessageHandling
 {
     public interface IMessageSink
     {
-        ValueTask SendMessage(PostilionMessage message);
+        ValueTask SendMessageAsync(PostilionMessage message);
     }
 
 }

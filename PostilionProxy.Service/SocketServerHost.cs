@@ -19,13 +19,17 @@ namespace PostilionProxy.Service
         private readonly IPEndPoint _issuingEndPoint;
         private readonly IPEndPoint _acquiringEndPoint;
 
-        public SocketServerHost(IConfiguration config)
+        private readonly IActiveAcquiringMessageHandlerTracker _acquiringTracker;
+
+        public SocketServerHost(IConfiguration config, IActiveAcquiringMessageHandlerTracker acquiringTracker)
         {
             var issuingListenPort = int.Parse(config["AppSettings:IssuingListenPort"]);
             _issuingEndPoint = new IPEndPoint(IPAddress.Any, issuingListenPort);
 
             var acquiringListenPort = int.Parse(config["AppSettings:AcquiringListenPort"]);
             _acquiringEndPoint = new IPEndPoint(IPAddress.Any, acquiringListenPort);
+
+            _acquiringTracker = acquiringTracker;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -33,7 +37,7 @@ namespace PostilionProxy.Service
             _issuingServer = new PostilionSocketServer(() => new IssuingMessageHandler());
             _issuingServer.Listen(_issuingEndPoint);
 
-            _acquiringServer = new PostilionSocketServer(() => new AcquiringMessageHandler());
+            _acquiringServer = new PostilionSocketServer(() => new AcquiringMessageHandler(_acquiringTracker));
             _acquiringServer.Listen(_acquiringEndPoint);
 
             return Task.CompletedTask;

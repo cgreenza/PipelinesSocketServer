@@ -7,7 +7,9 @@ namespace PostilionProxy.Core.MessageHandling
     // todo: much optimisation still possible to reduce memory copying and object/string allocations
     public class PostilionMessage
     {
-        public byte[] _testData = new byte[0];
+        // todo: remove this temporary implementation
+        private byte[] _testData = new byte[0];
+        public byte[] TestData { get => _testData; set => _testData = value; }
 
         // todo: indexer into fields
         public PostilionMessage()

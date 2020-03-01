@@ -9,6 +9,11 @@ namespace PostilionProxy.Core.MessageHandling
         public virtual void OnConnected(IMessageSink messageSink)
         {
             _messageSink = messageSink;
+
+            // todo: remove (sends "welcome" message for testing)
+            var m = new PostilionMessage();
+            m.ParseFromBuffer(System.Text.Encoding.ASCII.GetBytes("Hello from server. Test 1234567890"));
+            _messageSink.SendMessageAsync(m);
         }
 
         public virtual void OnDisconnected()
@@ -24,7 +29,7 @@ namespace PostilionProxy.Core.MessageHandling
             // todo: pass on to derived classes for processing
 
             // echo message back for testing
-            _messageSink.SendMessage(message);
+            _messageSink.SendMessageAsync(message); // todo: await
         }
 
         protected virtual void Dispose(bool disposing)

@@ -132,7 +132,7 @@ namespace PostilionProxy.Core.Network
                 return default;
             }
 
-            public ValueTask SendMessage(PostilionMessage message)
+            public ValueTask SendMessageAsync(PostilionMessage message)
             {
                 // todo: check MemoryOwner.LeakCount
 
